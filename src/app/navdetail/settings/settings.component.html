@@ -1,0 +1,96 @@
+<div class="content">
+  <form #departmentForm="ngForm">
+
+    <div class="row d-flex justify-content-around">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header card-header-icon card-header-primary">
+            <div class="card-icon">
+              <i class="material-icons">perm_identity</i>
+            </div>
+            <h4 class="card-title">Save Department</h4>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label class="bmd-label-floating">Department</label>
+              <input type="text" name="department" required class="form-control" [class.is-invalid]="department.invalid && department.touched"
+                #department="ngModel" [(ngModel)]="newDepartment.departmentName" required>
+            </div>
+            <button type="submit" [disabled]="departmentForm.form.invalid" class="btn btn-primary" (click)="createDepartment()">Save Department</button>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card card-plain">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title mt-0"> Departments</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <tbody *ngFor="let dept of allDepartments">
+                  <tr>
+                    <td>{{ dept.departmentName }} </td>
+                    <td>
+                      <button type="button" rel="tooltip" class="btn btn-link btn-sm" data-toggle="modal" data-target="#exampleModal" (click)="getSelectedDepartment(dept)">
+                        <i class="material-icons">edit</i>
+                      </button>
+                    </td>
+                    <td>
+                      <button type="button" rel="tooltip" class="btn btn-link btn-sm" data-toggle="modal" data-target="#exampleModal1" (click)="getSelectedDepartment(dept)">
+                        <i class="material-icons">close</i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal to Edit Department -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content p-4 text-center">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Department</h5>
+          <div class="modal-body">
+            <input type="text" class="form-control" name="department" #dept="ngModel" [(ngModel)]="selectedDept.departmentName" required
+              [class.is-invalid]="dept.invalid && dept.touched">
+          </div>
+          <div class="d-flex justify-content-around">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="clearInput()">Close</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="editDepartment()">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal to Edit Department-->
+    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content text-center p-3">
+          <i class="material-icons md-58 text-danger">
+            warning
+          </i>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+
+          <div class="modal-body">
+            Do you want to remove this Department ?
+          </div>
+          <div class="d-flex justify-content-around my-4">
+            <button type="button" class="btn btn-primary py-2 px-4" data-dismiss="modal" (click)="clearInput()">No</button>
+            <button type="button" class="btn btn-primary py-2 px-4" data-dismiss="modal" (click)="deleteDepartment()">Yes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <lib-ngx-notification></lib-ngx-notification>
+
+</div>

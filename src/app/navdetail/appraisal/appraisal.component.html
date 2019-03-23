@@ -1,0 +1,226 @@
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-10 mx-auto">
+        <div class="card">
+          <div class="card-header card-header-tabs card-header-primary">
+            <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                <span class="nav-tabs-title">Appraisal</span>
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#addstaff" data-toggle="tab">
+                      <i class="material-icons">add</i> Add New
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#managestaff" data-toggle="tab">
+                      <i class="material-icons">list</i> Manage
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane active" id="addstaff">
+                <form (ngSubmit)="onSubmit()" #appraisal="ngForm">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <mat-select placeholder="Select Staff" [(value)]="selectedStaff">
+                            <mat-option *ngFor="let staffObj of staffobject; let id = index" [value]="staffObj.staffId">
+                              {{ staffObj.firstName }} {{ staffObj.lastName }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">                       
+                          <label class="bmd-label-floating">Comments</label>
+                          <textarea class="form-control" ngModel name="comment" id="comment" required></textarea>                                              
+                    </div>
+                    <div class="col-md-6 mt-5">                        
+                      <mat-form-field>
+                        <input matInput [matDatepicker]="picker" ngModel name="appraisal_date" id="appraisal_date" placeholder="Date Appraised">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>                      
+                    </div>
+                  </div>
+                  <div class="my-5 d-flex justify-content-around">
+                    <button type="reset" class="btn btn-primary">Clear</button>
+                    <button type="submit" class="btn btn-primary">Submit Appraisal</button>
+                  </div>
+                </form>
+              </div>
+              <div class="tab-pane" id="managestaff">
+                <table class="table table-hover">
+                  <mat-form-field>
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+                  </mat-form-field>
+                  <div class="mat-elevation-z8">
+                    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-100">
+                      <!-- Appraisal ID -->
+                      <!-- <ng-container matColumnDef="appraisal_id">
+                          <th mat-header-cell *matHeaderCellDef mat-sort-header>Appraisal ID </th>
+                          <td mat-cell *matCellDef="let element"> {{element.appraisal_id}} </td>
+                        </ng-container> -->
+
+                      <!-- Appraisal By -->
+                      <ng-container matColumnDef="appraisedByList">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Appraised By </th>
+                        <td mat-cell *matCellDef="let element"> {{element.appraisedByStaffId.firstName}} {{element.appraisedByStaffId.lastName}} </td>
+                      </ng-container>
+
+                      <!-- Appraised Staff -->
+                      <ng-container matColumnDef="appraisedStaffList">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Appraised Staff </th>
+                        <td mat-cell *matCellDef="let element"> {{element.staffIdAppraised.firstName}} {{element.staffIdAppraised.lastName}} </td>
+                      </ng-container>
+
+                      <!-- Department Column -->
+                      <ng-container matColumnDef="appraisedStaffDept">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Department </th>
+                        <td mat-cell *matCellDef="let element"> {{element.appraisedStaffDept}} </td>
+                      </ng-container>
+
+                      <!-- Comments Column -->
+                      <ng-container matColumnDef="appraisedComments">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Comments </th>
+                        <td mat-cell *matCellDef="let element"> {{element.appraisedComments}} </td>
+                      </ng-container>
+
+                      <!-- Date ID Column -->
+                      <ng-container matColumnDef="dateAppraised">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.dateAppraised | date:'longDate' }} </td>
+                      </ng-container>
+
+                      <!-- Actions Column -->
+                      <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef> Actions</th>
+                        <td mat-cell *matCellDef="let element" #ff>
+                          <button type="button" rel="tooltip" title="View Appraisal" (click)="onClickView(element)" class="btn btn-link btn-sm" data-toggle="modal"
+                            data-target="#exampleModal0">
+                            <i class="material-icons">zoom_in</i>
+                          </button>
+                          <button type="button" rel="tooltip" title="Edit Appraisal" (click)="onClickView(element)" class="btn btn-link btn-sm" data-toggle="modal"
+                            data-target="#exampleModal1">
+                            <i class="material-icons">edit</i>
+                          </button>
+                          <!-- <button type="button" rel="tooltip" title="Remove Appraisal" class="btn btn-link btn-sm" data-toggle="modal" data-target="#exampleModal2">
+                                 <i class="material-icons">close</i>
+                               </button> -->
+                        </td>
+                      </ng-container>
+
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+                  </div>
+                </table>
+                <!-- Modal to View Appraisal-->
+                <div class="modal fade bg" id="exampleModal0" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content p-3">
+                      <div class="modal-header text-center">
+                        <h5 class="modal-title">View Appraisal Details</h5>
+                      </div>
+                      <div class="modal-body text-left">
+
+                        <div class="my-2">
+                          <p *ngIf="ifTrue">Appraised By : {{selectedObject.appraisedByStaffId.firstName}} {{ selectedObject.appraisedByStaffId.lastName
+                            }} </p>
+                        </div>
+                        <div class="my-2">
+                          <p *ngIf="ifTrue">Appraised Staff: {{selectedObject.staffIdAppraised.firstName}} {{ selectedObject.staffIdAppraised.lastName
+                            }} </p>
+                        </div>
+                        <div class="my-2">
+                          <p *ngIf="ifTrue">Department: {{selectedObject.staffIdAppraised.department}} </p>
+                        </div>
+                        <div class="my-2">
+                          <p *ngIf="ifTrue">Comments: {{ selectedObject.appraisedStaffDept }}</p>
+                        </div>
+                        <div class="my-2">
+                          <p *ngIf="ifTrue">Date: {{ selectedObject.dateAppraised | date: 'longDate'}}</p>
+                        </div>
+                        <!-- <div class="my-2">
+                                    <p>Reciept: </p>
+                                  </div> -->
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <!-- Modal to Edit Appraisal-->
+                <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content p-3">
+                      <div class="modal-header text-center">
+                        <h5 class="modal-title">Edit Appraisal</h5>
+                      </div>
+                      <form #appraisalEdit="ngForm">
+                        <div class="form-row">
+                          <div class="form-group col-lg-12 col-md-12">
+                            <textarea class="form-control" [(ngModel)]="selectedObject.appraisedComments" ngModel name="appdesc" id="appdesc" placeholder="Enter Appraisal Description"></textarea>
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-lg-12 col-md-12">
+                            <input type="text" class="form-control" [(ngModel)]="selectedObject.appraisedStaffDept " ngModel name="appdept" id="appdept"
+                              placeholder="Department">
+                          </div>
+                        </div>
+                        <div class="form-row my-3 col-lg-6 col-md-6 my-2">
+                          <label>Date of Appraisal</label>
+                          <input type="text" class="form-control" [(ngModel)]="selectedObject.dateAppraised" ngModel name="appdate" id="appdate">
+                        </div>
+
+                        <div class="d-flex justify-content-around my-4">
+                          <button type="button" class="btn btn-primary py-2 px-3" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary py-2 px-3" data-dismiss="modal" (click)="onEdited()">Update changes</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <!-- Modal to Delete Appraisal-->
+                <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content text-center p-3">
+                      <i class="material-icons md-58 text-danger">
+                        warning
+                      </i>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+
+                      <div class="modal-body">
+                        Do you want to remove this Appraisal ?
+                      </div>
+                      <div class="d-flex justify-content-around my-4">
+                        <button type="button" class="btn btn-primary py-2 px-4" data-dismiss="modal">No</button>
+                        <button type="button" class="btn btn-primary py-2 px-4">Yes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<lib-ngx-notification></lib-ngx-notification>

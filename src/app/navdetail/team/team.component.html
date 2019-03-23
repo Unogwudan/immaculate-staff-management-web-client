@@ -1,0 +1,216 @@
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-10 mx-auto">
+        <div class="card">
+          <div class="card-header card-header-tabs card-header-primary">
+            <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                <span class="nav-tabs-title">Teams</span>
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#addIncome" data-toggle="tab">
+                      <i class="material-icons">add</i> Add New
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#managestaff" data-toggle="tab">
+                      <i class="material-icons">list</i> Manage
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane active" id="addIncome">
+                <form [formGroup]="teamForm" (ngSubmit)="createTeam()">
+
+                  <div class="row">
+                    <div class="col-md-8">
+                      <div class="form-group">
+                        <input type="text" name="title" required class="form-control" formControlName="name" placeholder="Title" required>
+                      </div>
+                    </div>
+              
+                  </div>
+                  <div class="row my-4">
+                    <div class="col-md-4">
+                      <label class="mr-3">Department</label>
+                      <mat-form-field>
+                        <mat-select formControlName="departmentId">
+                          <mat-option *ngFor="let dept of departments" [value]="dept.value">
+                            {{dept.viewValue}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+              </div>
+              <!--Manage Team-->
+              <div class="tab-pane" id="managestaff">
+                <table class="table table-hover">
+                  <mat-form-field>
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+                  </mat-form-field>
+                  <div class="mat-elevation-z8">
+                    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-100">
+
+                      <!-- Title Column -->
+                      <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Team Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                      </ng-container>
+
+                      <!-- Description Column -->
+                      <ng-container matColumnDef="departmentId">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Department </th>
+                        <td mat-cell *matCellDef="let element"> {{element.departmentId.name}} </td>
+                      </ng-container>
+
+                      <!-- Date ID Column -->
+                      <ng-container matColumnDef="dateAdded">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Created </th>
+                        <td mat-cell *matCellDef="let element"> {{element.dateAdded }} </td>
+                      </ng-container>
+
+                      <!-- Actions Column -->
+                      <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef> Actions</th>
+                        <td mat-cell *matCellDef="let element">
+                          <button type="button" rel="tooltip" title="View Team Members" class="btn btn-link btn-sm" 
+                          (click)="gotoTeamMembers(element)">
+                            <i class="material-icons">zoom_in</i>
+                          </button>
+                          <button type="button" rel="tooltip" title="Edit Division" [swal]="{ title: 'Coming son' }" 
+                          (confirm)="saveEmail($event)" (cancel)="handleRefusalToSetEmail($event)">
+                            <i class="material-icons">edit</i>
+                          </button>
+                          <button type="button" rel="tooltip" title="Remove Division"  [swal]="{ title: 'Coming son' }" 
+                          (confirm)="saveEmail($event)" (cancel)="handleRefusalToSetEmail($event)">
+                            <i class="material-icons">close</i>
+                          </button>
+                        </td>
+                      </ng-container>
+
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+                  </div>
+                </table>
+
+                <!-- Modal to Add Team Members-->
+                <div class="modal fade bg" id="exampleModal0" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content p-3">
+                      <div class="modal-header text-center">
+                        <h5 class="modal-title">Add Team Members</h5>
+                      </div>
+                      <div class="modal-body text-left">
+                        <img src="img.jpg" class="mx-auto d-block my-3" alt="Reciept Image here">
+                        <div class="my-2">
+                          <p>Title: </p>
+                        </div>
+                        <div class="my-2">
+                          <p>Description: </p>
+                        </div>
+                        <div class="my-2">
+                          <p>Cost: </p>
+                        </div>
+                        <div class="my-2">
+                          <p>Department: </p>
+                        </div>
+                        <div class="my-2">
+                          <p>Date:</p>
+                        </div>
+                        <div class="d-flex justify-content-around my-3">
+                          <button type="button" class="btn btn-primary py-2 px-3" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+
+                <!-- Modal to Edit Team-->
+                <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+                  *ngIf="selectedIncome">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content p-3">
+                      <div class="modal-header text-center">
+                        <h5 class="modal-title">Edit Team</h5>
+                      </div>
+                      <form #editIncomeForm="ngForm">
+                        <div class="form-row">
+                          <div class="form-group col-lg-12 col-md-12">
+                            <input type="text" class="form-control" placeholder="Income Title" name="title" #title="ngModel" [(ngModel)]="selectedIncome.incomeTitle"
+                              required [class.is-invalid]="title.invalid && title.touched" value="{{selectedIncome.incomeTitle}}">
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-lg-12 col-md-12">
+                            <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Enter Income Description" name="desc" #desc="ngModel"
+                              required [class.is-invalid]="desc.invalid && desc.touched" [(ngModel)]="selectedIncome.incomeDescription"
+                              value="{{selectedIncome.incomeDescription}}"></textarea>
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-lg-12 col-md-12">
+                            <input type="number" class="form-control" id="validationDefault03" placeholder="Cost(₦)" name="amount" #amount="ngModel"
+                              required [class.is-invalid]="amount.invalid && amount.touched" [(ngModel)]="selectedIncome.incomeAmount"
+                              value="{{ selectedIncome.incomeAmount}}">
+                          </div>
+                        </div>
+                        <div class="form-row my-3 col-lg-6 col-md-6">
+                          <label>Date of Income</label>
+                          <input type="text" class="form-control" name="date" #date="ngModel" [(ngModel)]="selectedIncome.incomeDate" value="{{selectedIncome.incomeDate}}">
+                        </div>
+
+                        <div class="d-flex justify-content-around my-4">
+                          <button type="button" class="btn btn-primary py-2 px-3" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary py-2 px-3" [disabled]="editIncomeForm.form.invalid" (click)="editIncome()" data-dismiss="modal">Update changes</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <!-- Modal to Delete Income-->
+                <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content text-center p-3">
+                      <i class="material-icons md-58 text-danger">
+                        warning
+                      </i>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+
+                      <div class="modal-body">
+                        Do you want to remove this team?
+                      </div>
+                      <div class="d-flex justify-content-around my-3">
+                        <button type="button" class="btn btn-primary py-2 px-3" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary py-2 px-3" data-dismiss="modal" (click)="deleteIncome()">Remove</button>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <lib-ngx-notification></lib-ngx-notification>
+
+</div>

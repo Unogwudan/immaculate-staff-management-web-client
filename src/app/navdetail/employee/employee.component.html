@@ -1,0 +1,481 @@
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-10 mx-auto">
+        <div class="card">
+          <div class="card-header card-header-tabs card-header-primary">
+            <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                <span class="nav-tabs-title">EMPLOYEES</span>
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#addstaff" data-toggle="tab">
+                      <i class="material-icons">add</i> Add New
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#managestaff" data-toggle="tab">
+                      <i class="material-icons">list</i> Manage
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <!-- <li class="nav-item">
+                    <a class="nav-link" href="#inactivestaff" data-toggle="tab">
+                      <i class="material-icons">block</i> Inactive Staff
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li> -->
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane active" id="addstaff">
+                <form [formGroup]="employeeForm" (ngSubmit)="addNewEmployee()">
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="bmd-label-floating">Fist Name*</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name" 
+                        formControlName="firstName" required>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="bmd-label-floating">Middle Name*</label>
+                        <input type="text" class="form-control" id="m_name" name="m_name" 
+                        formControlName="middleName" required>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="bmd-label-floating">Last Name*</label>
+                        <input type="text" class="form-control" id="last_name" name="last_name" 
+                        formControlName="lastName"required>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="bmd-label-floating">Address*</label>
+                        <input type="text" class="form-control" id="address" name="address" 
+                        formControlName="address" required>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <!-- <div class="col-md-4">
+                      <mat-form-field>
+                        <input matInput [matDatepicker]="picker" id="dob" name="dob" placeholder="Date of Birth" required>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                      </mat-form-field>
+                    </div> -->
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="bmd-label-floating">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required
+                        formControlName="email" required>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="bmd-label-floating">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" 
+                        formControlName="password"required>
+                      </div>
+                    </div>
+
+                    <!-- <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="bmd-label-floating"> Confirm Password</label>
+                        <input type="password" class="form-control" name="password" id="confirm_password" required>
+                      </div>
+                    </div> -->
+
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="bmd-label-floating">Phone Number</label>
+                        <input type="number" class="form-control" id="phone_number" name="phone_number" maxlength="11" 
+                        formControlName="phone" required>
+                      </div>
+                    </div>
+
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="bmd-label-floating">Position</label>
+                        <input type="text" class="form-control" id="position" name="position" 
+                        formControlName="position" required>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <!-- <div class="col-md-4">
+                      <div class="form-group">
+                        <mat-form-field>
+                          <input matInput [matDatepicker]="picker2" id="emplyd" name="emplyd" placeholder="Employment Date" required>
+                          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                          <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </div> -->
+                    
+                    <!-- <div class="col-md-4 form-group">
+                      <label class="bmd-label-floating">Bank Name*</label>
+                      <input type="text" id="bank_name" name="bank_name" class="form-control" required>
+                    </div> -->
+                  </div>
+                   <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="bmd-label-floating">Account Name*</label>
+                        <input type="text" id="account_name" name="account_name" class="form-control" 
+                        formControlName="accountName" required>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="bmd-label-floating">Account Number*</label>
+                        <input type="number" id="account_number" name="account_number" class="form-control" maxlength="10" 
+                        formControlName="accountNumber" required>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="bmd-label-floating">Monthly Salary*</label>
+                        <input type="text" class="form-control" id="monthly_salary" name="monthly_salary" maxlength="9" 
+                        formControlName="salary" required>
+                      </div>
+                    </div>
+                  </div> 
+                  <div class="submit-button text-center my-4 d-flex justify-content-around">
+                    <button type="reset" class="btn btn-primary">Clear</button>
+                    <button type="submit" class="btn btn-primary">Add New Staff</button>
+                  </div>
+                  <div class="clearfix"></div>
+                </form>
+              </div>
+              <!--/ End add new Staff -->
+
+              <div class="tab-pane" id="managestaff">
+                <table class="table table-hover">
+                  <mat-form-field>
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+                  </mat-form-field>
+                  <div class="mat-elevation-z8">
+                    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-100">
+                      <ng-container matColumnDef="firstName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+                      </ng-container>
+
+                      <!-- Middle Name Column -->
+                      <ng-container matColumnDef="middleName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Middle Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.middleName}} </td>
+                      </ng-container>
+
+                      <!-- Staff ID Column -->
+                      <ng-container matColumnDef="lastName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="address">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Address </th>
+                        <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+                      </ng-container>
+                      <!-- Phone Number Column -->
+                      <ng-container matColumnDef="phone">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone Number </th>
+                        <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email </th>
+                        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                      </ng-container>
+                      <!-- Salary ID Column -->
+                      <ng-container matColumnDef="salary">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Salary (₦) </th>
+                        <td mat-cell *matCellDef="let element"> {{element.salary}} </td>
+                      </ng-container>
+
+                      <!-- Actions Column -->
+                      <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Actions</th>
+                        <td mat-cell *matCellDef="let element">
+                          <!-- <button type="button" rel="tooltip" title="View Staff" (click)="getSelectedStaff(element)" class="btn btn-link btn-sm" data-toggle="modal"
+                            data-target="#exampleModal0">
+                            <i class="material-icons">zoom_in</i>
+                          </button> -->
+                          <button type="button" rel="tooltip" title="Edit Division" [swal]="{ title: 'Coming son' }" 
+                          (confirm)="saveEmail($event)" (cancel)="handleRefusalToSetEmail($event)">
+                            <i class="material-icons">edit</i>
+                          </button>
+                          <button type="button" rel="tooltip" title="Remove Division"  [swal]="{ title: 'Coming son' }" 
+                          (confirm)="saveEmail($event)" (cancel)="handleRefusalToSetEmail($event)">
+                            <i class="material-icons">close</i>
+                          </button>
+                        </td>
+                      </ng-container>
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+                  </div>
+                  <!-- Modal to Edit-->
+                  <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content p-3">
+                        <div class="modal-header d-flex justify-content-center">
+                          <h5 class="modal-title">Edit Staff Record</h5>
+                        </div>
+                        <form #editF="ngForm" staffElement='sEl'>
+                          <div class="form-row my-4">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <!-- First Name-->
+                                <input type="text" class="form-control" id="first_name_edit" name="first_name_edit" required>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <!-- Middle Name-->
+                                <input type="text" class="form-control" id="m_name_edit" name="m_name_edit" required>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-row my-4">
+                            <div class="col-md-6">
+                              <!-- Last Name-->
+                              <input type="text" class="form-control" id="last_name_edit" name="last_name_edit" required>
+                            </div>
+                            <div class="col-md-6">
+                              <!-- Address-->
+                              <input type="text" class="form-control" id="address_edit" name="address_edit" required>
+                            </div>
+                          </div>
+                          <div class="form-row my-4">
+                            <div class="col-md-6">
+                              <!-- Employment Date-->
+                              <input type="text" class="form-control" id="emply_edit" name="emply_edit" required>
+                            </div>
+                            <div class="col-md-6">
+                              <!-- Department-->
+                              <input type="text" class="form-control" id="dep_edit" name="dep_edit" aria-required="true" required>
+                            </div>
+                          </div>
+                          <div class="form-row my-4">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <!-- Phone Number-->
+                                <input type="number" class="form-control" id="phone_number_edit" name="phone_number_edit" maxlength="11" required>
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <!-- Position-->
+                                <input type="text" class="form-control" id="position_edit" name="position_edit" required>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-row my-4">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <!-- Bank Name-->
+                                <input type="text" id="bank_name_edit" name="bank_name_edit" class="form-control" required>
+                              </div>
+                            </div>
+
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <!-- Date of Birth-->
+                                <input type="text" class="form-control" name="dob_edit" required>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-row my-4">
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <!-- Account Number-->
+                                <input type="number" id="account_number_edit" name="account_number_edit" class="form-control" max="10" required>
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group">
+                                <!-- Monthly Salary-->
+                                <input type="text" class="form-control" id="monthly_salary_edit" name="monthly_salary_edit" maxlength="9" required>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="d-flex justify-content-around my-3">
+                            <button type="button" class="btn btn-primary py-2 px-3" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary py-2 px-3" (click)="onSubmitEdited()">Save changes</button>
+                          </div>
+                        </form>
+
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Modal to Make Staff Inactive-->
+                  <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content text-center p-3">
+                        <i class="material-icons md-58 text-danger">
+                          warning
+                        </i>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h5 class="modal-title">Do you want to make this staff inactive?</h5>
+
+                        <form #inactiveForm="ngForm">
+                          <div class="form-row">
+                            <div class="form-group col-md-12 my-5">
+                              <textarea class="form-control" rows="1" placeholder="Enter the reason for making this staff inactive" name="reasonFor" #reasonFor="ngModel"
+                                [(ngModel)]="reason" maxlength="160"></textarea>
+                            </div>
+                          </div>
+                          <div class="d-flex justify-content-around my-2">
+                            <button type="button" class="btn btn-primary py-2 px-4" data-dismiss="modal">No</button>
+                            <button type="submit" class="btn btn-primary py-2 px-4" data-dismiss="modal" (click)="setStaffInactive()">Yes</button>
+                          </div>
+                        </form>
+                      </div>
+
+                    </div>
+                  </div>
+
+                </table>
+              </div>
+              <div class="tab-pane" id="inactivestaff">
+                <table class="table table-hover">
+
+                  <mat-form-field>
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+                  </mat-form-field>
+                  <div class="mat-elevation-z8">
+                    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-100">
+
+                      <!-- Title Column -->
+                      <ng-container matColumnDef="firstName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+                      </ng-container>
+
+                      <!-- Description Column -->
+                      <ng-container matColumnDef="middleName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Middle Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.middleName}} </td>
+                      </ng-container>
+
+                      <!-- Staff ID Column -->
+                      <ng-container matColumnDef="lastName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+                      </ng-container>
+                      <!-- Staff ID Column -->
+                      <ng-container matColumnDef="address">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
+                        <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+                      </ng-container>
+
+                      <!-- Type Column -->
+                      <ng-container matColumnDef="phone">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone Number </th>
+                        <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+                      </ng-container>
+
+                      <!-- Expense ID Column -->
+                      <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email </th>
+                        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                      </ng-container>
+
+                      <!-- Expense ID Column -->
+                      <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                      </ng-container>
+
+                      <!-- Expense ID Column -->
+                      <ng-container matColumnDef="salary">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Salary (₦)</th>
+                        <td mat-cell *matCellDef="let element"> {{element.salary}} </td>
+                      </ng-container>
+
+                      <!-- Actions Column -->
+                      <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef class="text-center"> Actions</th>
+                        <td mat-cell *matCellDef="let element">
+                          <button type="button" rel="tooltip" title="Make Active" class="btn btn-link btn-sm" data-toggle="modal" data-target="#exampleModal3"
+                            (click)="getSelectedStaff(element)">
+                            <i class="material-icons">check_box</i>
+                          </button>
+                        </td>
+                      </ng-container>
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+                  </div>
+
+                  <!-- Modal to Make Staff Active-->
+                  <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content text-center py-2 px-1">
+                        <i class="material-icons md-58 text-success">check_box</i>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+
+                        <div class="modal-body">
+                          Do you want to make this staff active ?
+                        </div>
+                        <div class="d-flex justify-content-around my-3 py-2">
+                          <button type="button" class="btn btn-primary py-2 px-4" data-dismiss="modal">No</button>
+                          <button type="button" class="btn btn-primary py-2 px-4" data-dismiss="modal" (click)="setStaffActive()">Yes</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<lib-ngx-notification></lib-ngx-notification>
+
+<script>
+  var password = document.getElementById("password"),
+    confirm_password = document.getElementById("confirm_password");
+
+  function validatePassword() {
+    if (password.value != confirm_password.value) {
+      confirm_password.setCustomValidity("Passwords Don't Match");
+    } else {
+      confirm_password.setCustomValidity('');
+    }
+  }
+
+  password.onchange = validatePassword;
+  confirm_password.onkeyup = validatePassword;
+
+</script>

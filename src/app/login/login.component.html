@@ -1,0 +1,51 @@
+<div class="wrapper">
+  <div class="container-fluid">
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="text-center">
+      <br/><br/><br/>
+      <!-- <img src="../../assets/img/login-page.png"> -->
+    </div>
+    <div class="card card-nav-tabs text-center col-md-4 mx-auto">
+      <div class="card-header card-header-primary">
+        <h3>Immaculate Consulting </h3>
+      </div>
+      <br>
+      <br>
+      <div class="card-body">
+        <div *ngIf="isLoginError" class="red-text center error-message">
+            <i class="material-icons">error</i> Incorrect username or password
+          </div> <br/>
+        <div class="input-group my-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="material-icons">group</i>
+            </span>
+          </div>
+          <input type="text" class="form-control" name="userName" placeholder="Enter Email Address" 
+          required formControlName="username">
+        </div>
+        
+        <div class="input-group my-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="material-icons">vpn_key</i>
+            </span>
+          </div>
+          <input type="password" class="form-control " name="passWord" placeholder="Enter Password" 
+            required formControlName="password">
+        </div>
+        
+        <button type="submit" class="btn btn-primary">LOGIN
+            <div class="ripple-container"></div>
+        </button>
+        <br>
+        <br>
+      </div>
+      <div class="text-center">        
+      <div class="card-footer">Copyright © 2018 Immaculate Consulting</div>
+    </div>
+    </div>
+    
+     </form>
+  </div>
+</div>

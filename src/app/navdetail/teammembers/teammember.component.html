@@ -1,0 +1,187 @@
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-10 mx-auto">
+        <div class="card">
+          <div class="card-header card-header-tabs card-header-primary">
+            <div class="nav-tabs-navigation">
+              <div class="nav-tabs-wrapper">
+                <span class="nav-tabs-title">Team Members</span>
+                <ul class="nav nav-tabs" data-tabs="tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#addIncome" data-toggle="tab">
+                      <i class="material-icons">add</i> Add New
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#managestaff" data-toggle="tab">
+                      <i class="material-icons">list</i> Manage
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="tab-content">
+              <div class="tab-pane active" id="addIncome">
+                <form [formGroup]="teamMemberForm" (ngSubmit)="addTeamMember()">
+
+                    <div class="row my-4">
+                        <div class="col-md-12">
+                          <label class="mr-3">Team Member</label>
+                          <mat-form-field>
+                            <mat-select formControlName="staffId">
+                              <mat-option *ngFor="let emp of employees" [value]="emp.value">
+                                {{emp.viewValue}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+    
+                      </div>
+                    <div class="row my-4">
+                      <div class="col-md-12">
+                        <label class="mr-3">Team </label>
+                        <mat-form-field>
+                          <mat-select formControlName="teamId">
+                            <mat-option *ngFor="let team of teams" [value]="team.value">
+                              {{team.viewValue}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+  
+                    </div>
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+              </div>
+              <!--Manage Income-->
+              <div class="tab-pane" id="managestaff">
+                <table class="table table-hover">
+                  <mat-form-field>
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search">
+                  </mat-form-field>
+                  <div class="mat-elevation-z8">
+                    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 w-100">
+
+                      <!-- Title Column -->
+                      <ng-container matColumnDef="staffId">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Team Member </th>
+                        <td mat-cell *matCellDef="let element"> {{element.staffId.firstName}} {{element.staffId.lastName}} </td>
+                      </ng-container>
+
+                      <!-- Description Column -->
+                      <ng-container matColumnDef="teamId">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Team </th>
+                        <td mat-cell *matCellDef="let element"> {{element.teamId.name}} </td>
+                      </ng-container>
+
+                      <!-- Date ID Column -->
+                      <ng-container matColumnDef="dateAdded">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Created </th>
+                        <td mat-cell *matCellDef="let element"> {{element.dateAdded }} </td>
+                      </ng-container>
+
+                      <!-- Actions Column -->
+                      <ng-container matColumnDef="actions">
+                        <th mat-header-cell *matHeaderCellDef> Actions</th>
+                        <td mat-cell *matCellDef="let element">
+                          <!-- <button type="button" rel="tooltip" title="View Asset" class="btn btn-link btn-sm" data-toggle="modal" data-target="#exampleModal0">
+                            <i class="material-icons">zoom_in</i>
+                          </button> -->
+                          <button type="button" rel="tooltip" title="Edit Division" [swal]="{ title: 'Coming son' }" 
+                          (confirm)="saveEmail($event)" (cancel)="handleRefusalToSetEmail($event)">
+                            <i class="material-icons">edit</i>
+                          </button>
+                          <button type="button" rel="tooltip" title="Remove Division"  [swal]="{ title: 'Coming son' }" 
+                          (confirm)="saveEmail($event)" (cancel)="handleRefusalToSetEmail($event)">
+                            <i class="material-icons">close</i>
+                          </button>
+                        </td>
+                      </ng-container>
+
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+                  </div>
+                </table>
+
+                <!-- Modal to Edit Income-->
+                <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
+                  *ngIf="selectedIncome">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content p-3">
+                      <div class="modal-header text-center">
+                        <h5 class="modal-title">Edit Team Member Details</h5>
+                      </div>
+                      <form #editIncomeForm="ngForm">
+                        <div class="form-row">
+                          <div class="form-group col-lg-12 col-md-12">
+                            <input type="text" class="form-control" placeholder="Income Title" name="title" #title="ngModel" [(ngModel)]="selectedIncome.incomeTitle"
+                              required [class.is-invalid]="title.invalid && title.touched" value="{{selectedIncome.incomeTitle}}">
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-lg-12 col-md-12">
+                            <textarea class="form-control" id="exampleFormControlTextarea1" placeholder="Enter Income Description" name="desc" #desc="ngModel"
+                              required [class.is-invalid]="desc.invalid && desc.touched" [(ngModel)]="selectedIncome.incomeDescription"
+                              value="{{selectedIncome.incomeDescription}}"></textarea>
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-lg-12 col-md-12">
+                            <input type="number" class="form-control" id="validationDefault03" placeholder="Cost(₦)" name="amount" #amount="ngModel"
+                              required [class.is-invalid]="amount.invalid && amount.touched" [(ngModel)]="selectedIncome.incomeAmount"
+                              value="{{ selectedIncome.incomeAmount}}">
+                          </div>
+                        </div>
+                        <div class="form-row my-3 col-lg-6 col-md-6">
+                          <label>Date of Income</label>
+                          <input type="text" class="form-control" name="date" #date="ngModel" [(ngModel)]="selectedIncome.incomeDate" value="{{selectedIncome.incomeDate}}">
+                        </div>
+
+                        <div class="d-flex justify-content-around my-4">
+                          <button type="button" class="btn btn-primary py-2 px-3" data-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary py-2 px-3" [disabled]="editIncomeForm.form.invalid" (click)="editIncome()" data-dismiss="modal">Update changes</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <!-- Modal to Delete Income-->
+                <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content text-center p-3">
+                      <i class="material-icons md-58 text-danger">
+                        warning
+                      </i>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+
+                      <div class="modal-body">
+                        Do you want to remove this team Member?
+                      </div>
+                      <div class="d-flex justify-content-around my-3">
+                        <button type="button" class="btn btn-primary py-2 px-3" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary py-2 px-3" data-dismiss="modal" (click)="deleteIncome()">Remove</button>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <lib-ngx-notification></lib-ngx-notification>
+
+</div>
